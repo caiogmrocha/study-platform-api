@@ -1,4 +1,5 @@
 import { v4 as uuid } from 'uuid';
+import { IFollowProps } from './i-follow-props';
 
 interface IStudentProps {
   id?: string;
@@ -8,6 +9,8 @@ interface IStudentProps {
   phone: string;
   image: string;
   bio: string;
+
+  following?: IFollowProps[]
 }
 
 export class Student {

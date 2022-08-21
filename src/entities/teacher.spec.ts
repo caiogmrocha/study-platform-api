@@ -11,7 +11,7 @@ describe('Teacher Entity', () => {
       image: 'path/to/image',
     })
 
-    expect(teacher.props).toEqual({
+    expect(teacher.props).toEqual(expect.objectContaining({
       id: expect.any(String),
       name: 'John Doe',
       email: 'john@doe.com',
@@ -19,6 +19,6 @@ describe('Teacher Entity', () => {
       phone: '087999999999',
       bio: 'fake bio here',
       image: 'path/to/image',
-    })
+    }))
   })
 })
