@@ -1,5 +1,6 @@
 import { v4 as uuid } from 'uuid';
 import { IFollowProps } from './i-follow-props';
+import { ILikeProps } from './i-like-props';
 
 interface IStudentProps {
   id?: string;
@@ -10,7 +11,8 @@ interface IStudentProps {
   image: string;
   bio: string;
 
-  following?: IFollowProps[]
+  following?: IFollowProps[];
+  likes?: ILikeProps[];
 }
 
 export class Student {
