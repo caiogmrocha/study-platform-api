@@ -1,13 +1,13 @@
 import { v4 as uuid } from "uuid";
 import { Comment } from "./comment";
-import { ILikeProps } from "./i-like-props";
+import { Like } from "./like";
 
 export interface IPostProps {
   id?: string;
   description: string;
   media_path: string;
 
-  likes?: ILikeProps;
+  likes?: Like[];
   comments?: Comment[];
 }
 
