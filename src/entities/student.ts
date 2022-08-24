@@ -1,7 +1,7 @@
 import { v4 as uuid } from 'uuid';
 import { Comment } from './comment';
 import { Follow } from './follow';
-import { ILikeProps } from './i-like-props';
+import { Like } from './like';
 
 interface IStudentProps {
   id?: string;
@@ -13,7 +13,7 @@ interface IStudentProps {
   bio: string;
 
   following?: Follow[];
-  likes?: ILikeProps[];
+  likes?: Like[];
   comments?: Comment[];
 }
 
