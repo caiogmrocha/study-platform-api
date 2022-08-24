@@ -1,6 +1,6 @@
 import { v4 as uuid } from 'uuid';
+import { Follow } from './follow';
 import { ICommentProps } from './i-comment-props';
-import { IFollowProps } from './i-follow-props';
 import { ILikeProps } from './i-like-props';
 
 interface IStudentProps {
@@ -12,7 +12,7 @@ interface IStudentProps {
   image: string;
   bio: string;
 
-  following?: IFollowProps[];
+  following?: Follow[];
   likes?: ILikeProps[];
   comments?: ICommentProps[];
 }
