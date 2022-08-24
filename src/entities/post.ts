@@ -1,5 +1,5 @@
 import { v4 as uuid } from "uuid";
-import { ICommentProps } from "./i-comment-props";
+import { Comment } from "./comment";
 import { ILikeProps } from "./i-like-props";
 
 export interface IPostProps {
@@ -8,7 +8,7 @@ export interface IPostProps {
   media_path: string;
 
   likes?: ILikeProps;
-  comments?: ICommentProps[];
+  comments?: Comment[];
 }
 
 export class Post {

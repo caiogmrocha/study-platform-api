@@ -1,6 +1,6 @@
 import { v4 as uuid } from 'uuid';
+import { Comment } from './comment';
 import { Follow } from './follow';
-import { ICommentProps } from './i-comment-props';
 import { ILikeProps } from './i-like-props';
 
 interface IStudentProps {
@@ -14,7 +14,7 @@ interface IStudentProps {
 
   following?: Follow[];
   likes?: ILikeProps[];
-  comments?: ICommentProps[];
+  comments?: Comment[];
 }
 
 export class Student {
