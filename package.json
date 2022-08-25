@@ -6,7 +6,9 @@
   "scripts": {
     "test:unit": "jest --passWithNoTests --runInBand --no-cache",
     "test:unit:staged": "npm run test:unit -- --findRelatedTests",
-    "test:unit:watch": "npm run test:unit -- --watch"
+    "test:unit:watch": "npm run test:unit -- --watch",
+    "test:e2e": "jest --passWithNoTests --runInBand --no-cache --config jest-e2e.config.ts",
+    "test:e2e:watch": "npm run test:e2e -- --watch"
   },
   "keywords": [],
   "author": "",
@@ -39,7 +41,9 @@
   },
   "dependencies": {
     "@prisma/client": "^4.2.1",
+    "@types/express": "^4.17.13",
     "dotenv": "^16.0.1",
+    "express": "^4.18.1",
     "mysql2": "^2.3.3",
     "uuid": "^8.3.2"
   }
