@@ -20,6 +20,31 @@ const makeSut = (students: Student[]): SutTypes => {
 }
 
 describe('Register Student Use Case', () => {
+  it('should return Student entity if student is registered', async () => {
+    const { sut } = makeSut([])
+    const data: IRegisterStudentDTO = {
+      name: 'any_name',
+      email: 'any@email.com',
+      password: 'any_password',
+      phone: '00000000000',
+      image: 'path/to/image',
+      bio: 'any_bio'
+    }
+
+    const studentOrError = await sut.execute(data)
+
+    expect(studentOrError.isRight()).toBeTruthy()
+    expect(studentOrError.value).toEqual(new Student({
+      id: expect.any(String),
+      name: data.name,
+      email: data.email,
+      password: data.password,
+      phone: data.phone,
+      image: data.image,
+      bio: data.bio
+    }))
+  })
+
   it('should return StudentAlreadyExistsError if the email already is exists', async () => {
     const { sut } = makeSut([
       new Student({
