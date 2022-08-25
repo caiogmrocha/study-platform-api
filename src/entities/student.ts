@@ -3,7 +3,7 @@ import { Comment } from './comment';
 import { Follow } from './follow';
 import { Like } from './like';
 
-interface IStudentProps {
+export interface IStudentProps {
   id?: string;
   name: string;
   email: string;
@@ -20,8 +20,8 @@ interface IStudentProps {
 export class Student {
   props: IStudentProps
 
-  get id(): string | null {
-    return this.props.id || null
+  get id(): string | undefined {
+    return this.props.id || undefined
   }
 
   get name(): string {
