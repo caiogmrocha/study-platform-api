@@ -1,7 +1,6 @@
 import { Student } from "@/entities/student";
 
 export interface IStudentData {
-  id: string,
   name: string;
   email: string;
   password: string;

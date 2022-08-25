@@ -24,6 +24,15 @@ export class RegisterStudentUseCase {
       return left(new StudentAlreadyExistsError(data.email))
     }
 
+    await this.studentRepository.create({
+      name: data.name,
+      email: data.email,
+      password: data.password,
+      phone: data.phone,
+      image: data.image,
+      bio: data.bio
+    })
+
     const student = new Student({
       name: data.name,
       email: data.email,
