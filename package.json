@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "dev": "tsnd --ignore-watch node_modules --respawn --transpile-only src/main.ts",
     "test:unit": "jest --passWithNoTests --runInBand --no-cache",
     "test:unit:staged": "npm run test:unit -- --findRelatedTests",
     "test:unit:watch": "npm run test:unit -- --watch",
