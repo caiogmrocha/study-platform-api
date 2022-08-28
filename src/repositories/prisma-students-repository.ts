@@ -11,6 +11,14 @@ export class PrismaStudentsRepository implements IStudentsRepository {
     }
   }
 
+  async findByPhone(phone: string): Promise<void | Student> {
+    const student = await prisma.student.findFirst({ where: { phone } })
+
+    if (student) {
+      return new Student(student)
+    }
+  }
+
   async create(data: IStudentData): Promise<void> {
     await prisma.student.create({
       data

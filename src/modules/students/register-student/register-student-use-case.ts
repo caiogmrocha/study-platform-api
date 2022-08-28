@@ -21,7 +21,13 @@ export class RegisterStudentUseCase {
     const studentFoundedByEmail = await this.studentRepository.findByEmail(data.email)
 
     if (studentFoundedByEmail) {
-      return left(new StudentAlreadyExistsError(data.email))
+      return left(new StudentAlreadyExistsError(data.email, 'e-mail'))
+    }
+
+    const studentFoundedByPhone = await this.studentRepository.findByPhone(data.phone)
+
+    if (studentFoundedByPhone) {
+      return left(new StudentAlreadyExistsError(data.phone, 'telefone'))
     }
 
     await this.studentRepository.create({
