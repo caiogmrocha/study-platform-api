@@ -18,9 +18,9 @@ export class RegisterStudentUseCase {
   ) {}
 
   async execute(data: IRegisterStudentDTO): Promise<Either<StudentAlreadyExistsError, Student>> {
-    const studentOrError = await this.studentRepository.findByEmail(data.email)
+    const studentFoundedByEmail = await this.studentRepository.findByEmail(data.email)
 
-    if (studentOrError) {
+    if (studentFoundedByEmail) {
       return left(new StudentAlreadyExistsError(data.email))
     }
 
