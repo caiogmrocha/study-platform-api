@@ -45,7 +45,7 @@ describe('Register Student Use Case', () => {
     }))
   })
 
-  it('should return StudentAlreadyExistsError if the email already is exists', async () => {
+  it('should return StudentAlreadyExistsError if the e-mail already is exists', async () => {
     const { sut } = makeSut([
       new Student({
         name: 'any_name',
@@ -60,7 +60,7 @@ describe('Register Student Use Case', () => {
       name: 'any_name',
       email: 'any@email.com',
       password: 'any_password',
-      phone: '00000000000',
+      phone: '11111111111',
       image: 'path/to/image',
       bio: 'any_bio'
     }
@@ -69,5 +69,31 @@ describe('Register Student Use Case', () => {
 
     expect(studentOrError.isLeft()).toBeTruthy()
     expect(studentOrError.value).toEqual(new StudentAlreadyExistsError('any@email.com', 'e-mail'))
+  })
+
+  it('should return StudentAlreadyExistsError if the phone already is exists', async () => {
+    const { sut } = makeSut([
+      new Student({
+        name: 'any_name',
+        email: 'any@email.com',
+        password: 'any_password',
+        phone: '00000000000',
+        image: 'path/to/image',
+        bio: 'any_bio'
+      })
+    ])
+    const data: IRegisterStudentDTO = {
+      name: 'any_name',
+      email: 'other@email.com',
+      password: 'any_password',
+      phone: '00000000000',
+      image: 'path/to/image',
+      bio: 'any_bio'
+    }
+
+    const studentOrError = await sut.execute(data)
+
+    expect(studentOrError.isLeft()).toBeTruthy()
+    expect(studentOrError.value).toEqual(new StudentAlreadyExistsError('00000000000', 'telefone'))
   })
 })
