@@ -21,6 +21,12 @@ module.exports = function (plop) {
         message: 'Module',
         choices: getDirectories(path.resolve(__dirname, '../src/modules'))
       },
+      {
+        type: 'confirm',
+        name: 'shouldIncludeController',
+        message: 'Include HTTP controller?',
+        default: true,
+      },
     ],
     actions: (answers) => {
       const actions = [
@@ -37,6 +43,15 @@ module.exports = function (plop) {
           skipIfExists: true,
         },
       ]
+
+      if (answers.shouldIncludeController) {
+        actions.push({
+          type: 'add',
+          path: '../src/modules/{{module}}/{{dashCase name}}/{{dashCase name}}-controller.ts',
+          templateFile: 'templates/controller.ts.hbs',
+          skipIfExists: true,
+        })
+      }
 
       return actions
     }
