@@ -13,6 +13,22 @@ const makeRegisterStudentUseCase = (): RegisterStudentUseCase => {
 }
 
 describe('[e2e] Register Student Controller', () => {
+  it('should return 201 if student has been registered', async () => {
+    const requestData = {
+      name: 'any_name',
+      email: 'any@email.com',
+      password: 'any_password',
+      phone: '00000000000',
+      image: 'path/to/image',
+      bio: 'any_bio'
+    }
+
+    const response = await request(app).post('/students/register').send(requestData)
+
+    expect(response.status).toBe(201)
+    expect(response.body).toBeNull()
+  })
+
   it('should return 422 if invalid data is provided', async () => {
     const response = await request(app).post('/students/register').send({
       name: '', // missing name param
