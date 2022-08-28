@@ -1,0 +1,11 @@
+import { Either, right } from '@/core/logic/Either'
+
+export interface I{{ pascalCase name }}DTO = {}
+
+export class {{ pascalCase name }}UseCase {
+  constructor () {}
+
+  async execute(data: I{{ pascalCase name }}DTO): Promise<Either<Error, null>> {
+    return right(null)
+  }
+}
