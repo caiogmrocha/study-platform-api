@@ -27,6 +27,24 @@ module.exports = function (plop) {
         message: 'Include HTTP controller?',
         default: true,
       },
+      {
+        type: 'list',
+        name: 'httpMethod',
+        message: 'HTTP method',
+        choices: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+        default: 'GET',
+        when: (answers) => {
+          return answers.shouldIncludeController
+        },
+      },
+      {
+        type: 'input',
+        name: 'httpPath',
+        message: 'HTTP route path',
+        when: (answers) => {
+          return answers.shouldIncludeController
+        },
+      },
     ],
     actions: (answers) => {
       const actions = [
@@ -49,6 +67,13 @@ module.exports = function (plop) {
           type: 'add',
           path: '../src/modules/{{module}}/{{dashCase name}}/{{dashCase name}}-controller.ts',
           templateFile: 'templates/controller.ts.hbs',
+          skipIfExists: true,
+        })
+
+        actions.push({
+          type: 'add',
+          path: '../src/modules/{{module}}/{{dashCase name}}/{{dashCase name}}-controller.test.ts',
+          templateFile: 'templates/controller.test.ts.hbs',
           skipIfExists: true,
         })
       }

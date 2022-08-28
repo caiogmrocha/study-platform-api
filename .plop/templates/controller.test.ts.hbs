@@ -1,0 +1,10 @@
+import { app } from '@/app'
+import request from 'supertest'
+
+describe('[e2e] {{ pascalCase name }}Controller', () => {
+  it('should return 200 if {{ lowerCase name }}', async () => {
+    const response = await request(app).{{ camelCase httpMethod }}('/{{ dashCase module }}/{{ dashCase httpPath }}')
+
+    expect(response.status).toBe(200)
+  })
+})
