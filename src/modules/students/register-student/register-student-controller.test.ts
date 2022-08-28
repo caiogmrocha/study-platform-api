@@ -52,4 +52,26 @@ describe('[e2e] Register Student Controller', () => {
       })
     }))
   })
+
+  it('should return 403 if the provided phone already exists', async () => {
+    const registerStudentUseCase = makeRegisterStudentUseCase()
+    const requestData = {
+      name: 'any_name',
+      email: 'any@email.com',
+      password: 'any_password',
+      phone: '00000000000',
+      image: 'path/to/image',
+      bio: 'any_bio'
+    }
+
+    await registerStudentUseCase.execute(requestData)
+    const response = await request(app).post('/students/register').send(requestData)
+
+    expect(response.status).toBe(403)
+    expect(response.body).toEqual(expect.objectContaining({
+      error: expect.objectContaining({
+        name: StudentAlreadyExistsError.name
+      })
+    }))
+  })
 })

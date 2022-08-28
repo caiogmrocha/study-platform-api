@@ -68,6 +68,6 @@ describe('Register Student Use Case', () => {
     const studentOrError = await sut.execute(data)
 
     expect(studentOrError.isLeft()).toBeTruthy()
-    expect(studentOrError.value).toEqual(new StudentAlreadyExistsError('any@email.com'))
+    expect(studentOrError.value).toEqual(new StudentAlreadyExistsError('any@email.com', 'e-mail'))
   })
 })
