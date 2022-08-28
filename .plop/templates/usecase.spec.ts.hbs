@@ -1,0 +1,21 @@
+import { {{ pascalCase name }}UseCase } from '@/modules/{{ dashCase module }}/{{ dashCase name }}/{{ dashCase name }}-use-case'
+
+type SutTypes = {
+  sut: {{ pascalCase name }}UseCase
+}
+
+const makeSut = (): SutTypes => {
+  const sut = new {{ pascalCase name }}UseCase();
+
+  return { sut }
+}
+
+describe('{{ titleCase name }}', () => {
+  it('should be able to {{ lowerCase name }}', async () => {
+    const { sut } = makeSut()
+
+    const result = await sut.execute({})
+
+    expect(result.isRight()).toBeTruthy()
+  })
+})

@@ -29,7 +29,13 @@ module.exports = function (plop) {
           path: '../src/modules/{{module}}/{{dashCase name}}/{{dashCase name}}-use-case.ts',
           templateFile: 'templates/usecase.ts.hbs',
           skipIfExists: true,
-        }
+        },
+        {
+          type: 'add',
+          path: '../src/modules/{{module}}/{{dashCase name}}/{{dashCase name}}-use-case.spec.ts',
+          templateFile: 'templates/usecase.spec.ts.hbs',
+          skipIfExists: true,
+        },
       ]
 
       return actions
