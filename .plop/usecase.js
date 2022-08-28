@@ -76,6 +76,13 @@ module.exports = function (plop) {
           templateFile: 'templates/controller.test.ts.hbs',
           skipIfExists: true,
         })
+
+        actions.push({
+          type: 'add',
+          path: '../src/modules/{{module}}/{{dashCase name}}/{{dashCase name}}-controller-factory.ts',
+          templateFile: 'templates/controller-factory.ts.hbs',
+          skipIfExists: true,
+        })
       }
 
       return actions

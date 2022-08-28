@@ -1,0 +1,10 @@
+import { IController } from "@/core/http/i-controller";
+import { {{ pascalCase name }}UseCase } from '@/modules/{{ dashCase module }}/{{ dashCase name }}/{{ dashCase name }}-use-case'
+import { {{ pascalCase name }}Controller } from '@/modules/{{ dashCase module }}/{{ dashCase name }}/{{ dashCase name }}-controller'
+
+export const make{{ pascalCase name }}Controller = () : IController => {
+  const {{ camelCase name }}UseCase = new {{ pascalCase name }}UseCase()
+  const {{ camelCase name }}Controller = new {{ pascalCase name }}Controller({{ camelCase name }}UseCase)
+
+  return {{ camelCase name }}Controller
+}
