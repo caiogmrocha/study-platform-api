@@ -1,6 +1,7 @@
 import { Either, left, right } from "@/core/logic/Either";
 import { Student } from "@/entities/student";
 import { IStudentsRepository } from "@/repositories/i-students-repository";
+import bcrypt from 'bcrypt';
 import { StudentAlreadyExistsError } from "./errors/student-already-exists-error";
 
 export interface IRegisterStudentDTO {
@@ -30,10 +31,12 @@ export class RegisterStudentUseCase {
       return left(new StudentAlreadyExistsError(data.phone, 'telefone'))
     }
 
+    const hashedPassword = await bcrypt.hash(data.password, 10)
+
     await this.studentRepository.create({
       name: data.name,
       email: data.email,
-      password: data.password,
+      password: hashedPassword,
       phone: data.phone,
       image: data.image,
       bio: data.bio
@@ -42,7 +45,7 @@ export class RegisterStudentUseCase {
     const student = new Student({
       name: data.name,
       email: data.email,
-      password: data.password,
+      password: hashedPassword,
       phone: data.phone,
       image: data.image,
       bio: data.bio
