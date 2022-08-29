@@ -38,7 +38,7 @@ describe('Register Student Use Case', () => {
       id: expect.any(String),
       name: data.name,
       email: data.email,
-      password: data.password,
+      password: expect.any(String),
       phone: data.phone,
       image: data.image,
       bio: data.bio
