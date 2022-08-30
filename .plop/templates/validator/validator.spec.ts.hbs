@@ -1,0 +1,13 @@
+import { {{ pascalCase name }}Error } from "../errors/{{ dashCase name }}-error"
+import { {{ pascalCase name }}Validator } from "./{{ dashCase name }}-validator"
+
+describe('{{ titleCase name }} Validator', () => {
+  it('should return {{ pascalCase name }}Error if on error', () => {
+    const anyField = ''
+    const sut = new {{ pascalCase name }}Validator('any_field', anyField)
+
+    const error = sut.validate()
+
+    expect(error).toEqual(new {{ pascalCase name }}Error('any_field'))
+  })
+})

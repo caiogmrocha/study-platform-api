@@ -51,13 +51,13 @@ module.exports = function (plop) {
         {
           type: 'add',
           path: '../src/modules/{{module}}/{{dashCase name}}/{{dashCase name}}-use-case.ts',
-          templateFile: 'templates/usecase.ts.hbs',
+          templateFile: 'templates/usecase/usecase.ts.hbs',
           skipIfExists: true,
         },
         {
           type: 'add',
           path: '../src/modules/{{module}}/{{dashCase name}}/{{dashCase name}}-use-case.spec.ts',
-          templateFile: 'templates/usecase.spec.ts.hbs',
+          templateFile: 'templates/usecase/usecase.spec.ts.hbs',
           skipIfExists: true,
         },
       ]
@@ -66,21 +66,21 @@ module.exports = function (plop) {
         actions.push({
           type: 'add',
           path: '../src/modules/{{module}}/{{dashCase name}}/{{dashCase name}}-controller.ts',
-          templateFile: 'templates/controller.ts.hbs',
+          templateFile: 'templates/usecase/controller.ts.hbs',
           skipIfExists: true,
         })
 
         actions.push({
           type: 'add',
           path: '../src/modules/{{module}}/{{dashCase name}}/{{dashCase name}}-controller.test.ts',
-          templateFile: 'templates/controller.test.ts.hbs',
+          templateFile: 'templates/usecase/controller.test.ts.hbs',
           skipIfExists: true,
         })
 
         actions.push({
           type: 'add',
           path: '../src/modules/{{module}}/{{dashCase name}}/{{dashCase name}}-controller-factory.ts',
-          templateFile: 'templates/controller-factory.ts.hbs',
+          templateFile: 'templates/usecase/controller-factory.ts.hbs',
           skipIfExists: true,
         })
       }

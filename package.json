@@ -10,7 +10,8 @@
     "test:unit:watch": "npm run test:unit -- --watch",
     "test:e2e": "jest --passWithNoTests --runInBand --no-cache --config jest-e2e.config.ts",
     "test:e2e:watch": "npm run test:e2e -- --watch",
-    "make:usecase": "npx plop --plopfile ./.plop/usecase.js"
+    "make:usecase": "npx plop --plopfile ./.plop/usecase.js",
+    "make:validator": "npx plop --plopfile ./.plop/validator.js"
   },
   "keywords": [],
   "author": "",

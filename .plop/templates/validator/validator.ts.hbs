@@ -1,0 +1,15 @@
+import { {{ pascalCase name }}Error } from '../errors/{{ dashCase name }}-error';
+import { IValidator } from '../i-validator';
+
+export class {{ pascalCase name }}Validator implements IValidator {
+  constructor (
+    public readonly fieldName: string,
+    public readonly field: unknown
+  ) {}
+
+  validate (): {{ pascalCase name }}Error | void {
+    if (!this.field) {
+      return new {{ pascalCase name }}Error(this.fieldName);
+    }
+  }
+}

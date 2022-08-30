@@ -1,0 +1,6 @@
+export class {{ pascalCase name }}Error extends Error {
+  constructor (fieldName: string) {
+    super(`O campo ${fieldName} não é válido.`);
+    this.name = '{{ pascalCase name }}Error';
+  }
+}
