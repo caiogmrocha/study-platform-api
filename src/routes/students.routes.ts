@@ -1,4 +1,4 @@
-import { adaptRoute } from '@/core/http/adapters/express-route-adapter';
+import { adaptRoute } from '@/core/adapters/express/express-route-adapter';
 import { makeRegisterStudentController } from '@/modules/students/register-student/register-student-controller-factory';
 import { Router } from 'express';
 
