@@ -2,7 +2,7 @@ import { app } from '@/app'
 import { PrismaStudentsRepository } from '@/repositories/prisma-students-repository'
 import { ValidationError } from '@/validations/errors/validation-error'
 import request from 'supertest'
-import { StudentAlreadyExistsError } from './errors/student-already-exists-error'
+import { StudentAlreadyExistsError } from '../errors/student-already-exists-error'
 import { RegisterStudentUseCase } from './register-student-use-case'
 
 const makeRegisterStudentUseCase = (): RegisterStudentUseCase => {

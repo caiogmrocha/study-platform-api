@@ -1,7 +1,7 @@
 import { Student } from "@/entities/student"
 import { IStudentsRepository } from "@/repositories/i-students-repository"
 import { InMemoryStudentsRepository } from "@/repositories/in-memory-students-repository"
-import { StudentAlreadyExistsError } from "./errors/student-already-exists-error"
+import { StudentAlreadyExistsError } from "../errors/student-already-exists-error"
 import { IRegisterStudentDTO, RegisterStudentUseCase } from "./register-student-use-case"
 
 type SutTypes = {

@@ -2,7 +2,7 @@ import { Either, left, right } from "@/core/logic/Either";
 import { Student } from "@/entities/student";
 import { IStudentsRepository } from "@/repositories/i-students-repository";
 import bcrypt from 'bcrypt';
-import { StudentAlreadyExistsError } from "./errors/student-already-exists-error";
+import { StudentAlreadyExistsError } from "../errors/student-already-exists-error";
 
 export interface IRegisterStudentDTO {
   name: string;

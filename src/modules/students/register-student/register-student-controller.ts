@@ -4,7 +4,7 @@ import { Either, left, right } from "@/core/logic/Either";
 import { ValidationError } from "@/validations/errors/validation-error";
 import { RequiredFieldValidator } from "@/validations/rules/required-field-validator";
 import { ValidationCompositor } from "@/validations/validation-compositor";
-import { StudentAlreadyExistsError } from "./errors/student-already-exists-error";
+import { StudentAlreadyExistsError } from "../errors/student-already-exists-error";
 import { RegisterStudentUseCase } from "./register-student-use-case";
 
 export interface RegisterStudentControllerRequest {
