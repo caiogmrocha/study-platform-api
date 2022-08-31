@@ -1,4 +1,4 @@
-import { adaptHash } from "@/core/adapters/bcrypt/bcrypt-hash-adapter";
+import { adaptBcryptHash } from "@/core/adapters/bcrypt/bcrypt-hash-adapter";
 import { Either, left, right } from "@/core/logic/Either";
 import { Student } from "@/entities/student";
 import { IStudentsRepository } from "@/repositories/i-students-repository";
@@ -31,7 +31,7 @@ export class RegisterStudentUseCase {
       return left(new StudentAlreadyExistsError(data.phone, 'telefone'))
     }
 
-    const hashedPassword = await adaptHash(data.password, 10)
+    const hashedPassword = await adaptBcryptHash(data.password, 10)
 
     await this.studentRepository.create({
       name: data.name,
