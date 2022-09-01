@@ -1,5 +1,7 @@
+import { adaptBcryptCompare } from '@/core/adapters/bcrypt/bcrypt-compare-adapter';
 import { Either, left, right } from '@/core/logic/Either';
 import { IStudentsRepository } from '@/repositories/i-students-repository';
+import { InvalidCrendentialsError } from '../errors/invalid-credentials-error';
 import { StudentDoesNotExistsError } from '../errors/student-does-not-exists-error';
 
 export interface IAuthenticateStudentDTO {
@@ -17,6 +19,12 @@ export class AuthenticateStudentUseCase {
 
     if (!studentFoundedByEmail) {
       return left(new StudentDoesNotExistsError(email, 'e-mail'))
+    }
+
+    const passwordIsValid = await adaptBcryptCompare(studentFoundedByEmail.password, password)
+
+    if (!passwordIsValid) {
+      return left(new InvalidCrendentialsError())
     }
 
     return right(null);
