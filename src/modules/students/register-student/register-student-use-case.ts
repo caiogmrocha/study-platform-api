@@ -1,4 +1,4 @@
-import { adaptBcryptHash } from "@/core/adapters/bcrypt/bcrypt-hash-adapter";
+import { IEncryption } from "@/core/encryption/i-encryption";
 import { Either, left, right } from "@/core/logic/Either";
 import { Student } from "@/entities/student";
 import { IStudentsRepository } from "@/repositories/i-students-repository";
@@ -15,7 +15,8 @@ export interface IRegisterStudentDTO {
 
 export class RegisterStudentUseCase {
   constructor (
-    private studentRepository: IStudentsRepository
+    private readonly studentRepository: IStudentsRepository,
+    private readonly encription: IEncryption
   ) {}
 
   async execute(data: IRegisterStudentDTO): Promise<Either<StudentAlreadyExistsError, Student>> {
@@ -31,7 +32,7 @@ export class RegisterStudentUseCase {
       return left(new StudentAlreadyExistsError(data.phone, 'telefone'))
     }
 
-    const hashedPassword = await adaptBcryptHash(data.password, 10)
+    const hashedPassword = await this.encription.hash(data.password)
 
     await this.studentRepository.create({
       name: data.name,

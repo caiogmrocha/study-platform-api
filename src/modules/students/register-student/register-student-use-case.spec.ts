@@ -1,3 +1,4 @@
+import { FakeEncryption } from "@/core/encryption/fake-encription"
 import { Student } from "@/entities/student"
 import { IStudentsRepository } from "@/repositories/i-students-repository"
 import { InMemoryStudentsRepository } from "@/repositories/in-memory-students-repository"
@@ -11,7 +12,8 @@ type SutTypes = {
 
 const makeSut = (students: Student[]): SutTypes => {
   const studentsRepository = new InMemoryStudentsRepository(students)
-  const sut = new RegisterStudentUseCase(studentsRepository)
+  const encription = new FakeEncryption()
+  const sut = new RegisterStudentUseCase(studentsRepository, encription)
 
   return {
     studentsRepository,

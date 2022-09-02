@@ -1,4 +1,4 @@
-import { adaptBcryptCompare } from '@/core/adapters/bcrypt/bcrypt-compare-adapter';
+import { IEncryption } from '@/core/encryption/i-encryption';
 import { Either, left, right } from '@/core/logic/Either';
 import { ITokenAuthentication } from '@/core/token-authentication/i-token-authentication';
 import { Student } from '@/entities/student';
@@ -19,7 +19,8 @@ export interface IAuthenticateStudentResult {
 export class AuthenticateStudentUseCase {
   constructor (
     private readonly studentRepository: IStudentsRepository,
-    private readonly tokenAuthentication: ITokenAuthentication
+    private readonly tokenAuthentication: ITokenAuthentication,
+    private readonly encription: IEncryption
   ) {}
 
   async execute({ email, password }: IAuthenticateStudentDTO): Promise<Either<
@@ -32,7 +33,7 @@ export class AuthenticateStudentUseCase {
       return left(new StudentDoesNotExistsError(email, 'e-mail'))
     }
 
-    const passwordIsValid = await adaptBcryptCompare(password, studentFoundedByEmail.password)
+    const passwordIsValid = await this.encription.compare(password, studentFoundedByEmail.password)
 
     if (!passwordIsValid) {
       return left(new InvalidCrendentialsError())

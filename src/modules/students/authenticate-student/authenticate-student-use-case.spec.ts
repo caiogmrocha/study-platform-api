@@ -1,5 +1,7 @@
-import { adaptBcryptHash } from '@/core/adapters/bcrypt/bcrypt-hash-adapter';
+import { FakeEncryption } from '@/core/encryption/fake-encription';
+import { IEncryption } from '@/core/encryption/i-encryption';
 import { FakeTokenAuthentication } from '@/core/token-authentication/fake-token-authentication';
+import { ITokenAuthentication } from '@/core/token-authentication/i-token-authentication';
 import { Student } from '@/entities/student';
 import { AuthenticateStudentUseCase } from '@/modules/students/authenticate-student/authenticate-student-use-case';
 import { InMemoryStudentsRepository } from '@/repositories/in-memory-students-repository';
@@ -7,15 +9,24 @@ import { InvalidCrendentialsError } from '../errors/invalid-credentials-error';
 import { StudentDoesNotExistsError } from '../errors/student-does-not-exists-error';
 
 type SutTypes = {
+  tokenAuthentication: ITokenAuthentication,
+  encription: IEncryption,
   sut: AuthenticateStudentUseCase
 }
+
+var encription;
 
 const makeSut = (students: Student[]): SutTypes => {
   const studentRepository = new InMemoryStudentsRepository(students)
   const tokenAuthentication = new FakeTokenAuthentication()
-  const sut = new AuthenticateStudentUseCase(studentRepository, tokenAuthentication)
+  const encription = new FakeEncryption()
+  const sut = new AuthenticateStudentUseCase(studentRepository, tokenAuthentication, encription)
 
-  return { sut }
+  return {
+    tokenAuthentication,
+    encription,
+    sut
+  }
 }
 
 describe('Authenticate Student', () => {
@@ -66,7 +77,7 @@ describe('Authenticate Student', () => {
       new Student({
         name: 'any_name',
         email: 'any@email.com',
-        password: await adaptBcryptHash('any_password'),
+        password: await (new FakeEncryption()).hash('any_password'),
         phone: '00000000000',
         image: 'path/to/image',
         bio: 'any_bio'
