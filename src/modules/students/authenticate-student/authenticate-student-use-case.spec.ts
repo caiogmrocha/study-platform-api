@@ -1,4 +1,5 @@
 import { adaptBcryptHash } from '@/core/adapters/bcrypt/bcrypt-hash-adapter';
+import { FakeTokenAuthentication } from '@/core/token-authentication/fake-token-authentication';
 import { Student } from '@/entities/student';
 import { AuthenticateStudentUseCase } from '@/modules/students/authenticate-student/authenticate-student-use-case';
 import { InMemoryStudentsRepository } from '@/repositories/in-memory-students-repository';
@@ -11,7 +12,8 @@ type SutTypes = {
 
 const makeSut = (students: Student[]): SutTypes => {
   const studentRepository = new InMemoryStudentsRepository(students)
-  const sut = new AuthenticateStudentUseCase(studentRepository);
+  const tokenAuthentication = new FakeTokenAuthentication()
+  const sut = new AuthenticateStudentUseCase(studentRepository, tokenAuthentication)
 
   return { sut }
 }
