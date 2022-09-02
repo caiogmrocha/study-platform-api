@@ -1,6 +1,6 @@
 import { adaptBcryptCompare } from '@/core/adapters/bcrypt/bcrypt-compare-adapter';
-import { adaptJwtSign } from '@/core/adapters/jwt/jwt-sign-adapter';
 import { Either, left, right } from '@/core/logic/Either';
+import { ITokenAuthentication } from '@/core/token-authentication/i-token-authentication';
 import { Student } from '@/entities/student';
 import { IStudentsRepository } from '@/repositories/i-students-repository';
 import { InvalidCrendentialsError } from '../errors/invalid-credentials-error';
@@ -18,7 +18,8 @@ export interface IAuthenticateStudentResult {
 
 export class AuthenticateStudentUseCase {
   constructor (
-    private readonly studentRepository: IStudentsRepository
+    private readonly studentRepository: IStudentsRepository,
+    private readonly tokenAuthentication: ITokenAuthentication
   ) {}
 
   async execute({ email, password }: IAuthenticateStudentDTO): Promise<Either<
@@ -37,7 +38,7 @@ export class AuthenticateStudentUseCase {
       return left(new InvalidCrendentialsError())
     }
 
-    const token = await adaptJwtSign({ id: studentFoundedByEmail.id }, 86400)
+    const token = await this.tokenAuthentication.sign({ id: studentFoundedByEmail.id }, 86400)
 
     return right({
       student: studentFoundedByEmail,
