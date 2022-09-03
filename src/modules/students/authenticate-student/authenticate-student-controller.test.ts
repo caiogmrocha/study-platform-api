@@ -1,5 +1,6 @@
 import { app } from '@/app'
 import { BcryptEncryptionAdapter } from '@/core/encryption/bcrypt-encryption-adapter'
+import { Student } from '@/entities/student'
 import { PrismaStudentsRepository } from '@/repositories/prisma-students-repository'
 import { ValidationError } from '@/validations/errors/validation-error'
 import request from 'supertest'
@@ -20,6 +21,29 @@ describe('[e2e] AuthenticateStudentController', () => {
       phone: '00000000000',
       image: 'path/to/image',
       bio: 'any_bio'
+    })
+  })
+
+  it('should return 200 if student has been authenticated', async () => {
+    const requestData = {
+      email: 'any@email.com',
+      password: 'any_password'
+    }
+
+    const response = await request(app).post('/students/login').send(requestData)
+
+    expect(response.status).toBe(200)
+    expect(response.body).toEqual({
+      student: new Student({
+        id: expect.any(String),
+        name: 'any_name',
+        email: 'any@email.com',
+        password: expect.any(String),
+        phone: '00000000000',
+        image: 'path/to/image',
+        bio: 'any_bio'
+      }),
+      token: expect.any(String)
     })
   })
 
