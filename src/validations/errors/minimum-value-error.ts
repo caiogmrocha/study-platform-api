@@ -12,6 +12,10 @@ export class MinimumValueError extends Error {
           super(`O campo ${fieldName} precisar ser maior que ${minimum}.`)
           break
 
+        case 'object':
+          super(`O campo ${fieldName} precisar ter ${minimum} propriedades.`)
+          break
+
         default:
           super(`O campo ${fieldName} não é válido.`)
           break

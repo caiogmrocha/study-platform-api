@@ -9,6 +9,10 @@ export class MinimumValueValidator implements IValidator {
   ) {}
 
   validate (): MinimumValueError | void {
+    if (!this.field) {
+      return new MinimumValueError(this.fieldName, this.field, this.minimum)
+    }
+
     if (typeof this.field === 'string') {
       if (this.field.length < this.minimum) {
         return new MinimumValueError(this.fieldName, this.field, this.minimum)
@@ -23,6 +27,12 @@ export class MinimumValueValidator implements IValidator {
 
     if (Array.isArray(this.field)) {
       if (this.field.length < this.minimum) {
+        return new MinimumValueError(this.fieldName, this.field, this.minimum)
+      }
+    }
+
+    if (typeof this.field === 'object') {
+      if (Object.keys(this.field).length < this.minimum) {
         return new MinimumValueError(this.fieldName, this.field, this.minimum)
       }
     }
