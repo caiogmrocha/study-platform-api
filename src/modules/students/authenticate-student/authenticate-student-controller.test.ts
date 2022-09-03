@@ -3,6 +3,7 @@ import { BcryptEncryptionAdapter } from '@/core/encryption/bcrypt-encryption-ada
 import { PrismaStudentsRepository } from '@/repositories/prisma-students-repository'
 import { ValidationError } from '@/validations/errors/validation-error'
 import request from 'supertest'
+import { StudentDoesNotExistsError } from '../errors/student-does-not-exists-error'
 import { RegisterStudentUseCase } from '../register-student/register-student-use-case'
 
 describe('[e2e] AuthenticateStudentController', () => {
@@ -23,15 +24,32 @@ describe('[e2e] AuthenticateStudentController', () => {
 
   it('should return 422 if the provided credentials are invalid', async () => {
     const requestData = {
-      email: 'john@doe.com',
+      email: 'any@email.com',
       password: 'password'
     }
+
     const response = await request(app).post('/students/login').send(requestData)
 
     expect(response.status).toBe(422)
     expect(response.body).toEqual(expect.objectContaining({
       error: expect.objectContaining({
         name: ValidationError.name
+      })
+    }))
+  })
+
+  it('should return 401 if the provided e-mail does not exists', async () => {
+    const requestData = {
+      email: 'john@doe.com',
+      password: 'any_password'
+    }
+
+    const response = await request(app).post('/students/login').send(requestData)
+
+    expect(response.status).toBe(401)
+    expect(response.body).toEqual(expect.objectContaining({
+      error: expect.objectContaining({
+        name: StudentDoesNotExistsError.name
       })
     }))
   })
