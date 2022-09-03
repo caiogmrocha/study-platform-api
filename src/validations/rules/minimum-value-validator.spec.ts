@@ -28,4 +28,16 @@ describe('Minimum Value Validator', () => {
 
     expect(error).toEqual(new MinimumValueError('any_field', anyField, 4))
   })
+
+  it('should return MinimumValueError if the provided field is invalid object', () => {
+    const anyField = {
+      firstName: 'any_name',
+      lastName: 'any_name'
+    }
+    const sut = new MinimumValueValidator('any_field', anyField, 3)
+
+    const error = sut.validate()
+
+    expect(error).toEqual(new MinimumValueError('any_field', anyField, 3))
+  })
 })
