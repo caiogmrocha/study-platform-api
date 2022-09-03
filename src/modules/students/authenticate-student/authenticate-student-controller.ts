@@ -1,5 +1,5 @@
 import { IController } from "@/core/http/i-controller";
-import { created, HttpResponse, unprocessable } from "@/core/http/i-http-response";
+import { clientError, created, HttpResponse, unauthorized, unprocessable } from "@/core/http/i-http-response";
 import { Either, left, right } from "@/core/logic/Either";
 import { AuthenticateStudentUseCase } from '@/modules/students/authenticate-student/authenticate-student-use-case';
 import { ValidationError } from "@/validations/errors/validation-error";
@@ -7,6 +7,7 @@ import { IsEmailValidator } from "@/validations/rules/is-email-validator";
 import { MinimumValueValidator } from "@/validations/rules/minimum-value-validator";
 import { RequiredFieldValidator } from "@/validations/rules/required-field-validator";
 import { ValidationCompositor } from "@/validations/validation-compositor";
+import { StudentDoesNotExistsError } from "../errors/student-does-not-exists-error";
 
 export interface AuthenticateStudentControllerRequest {
   email: string;
@@ -23,6 +24,20 @@ export class AuthenticateStudentController implements IController<AuthenticateSt
 
     if (validationResult.isLeft()) {
       return unprocessable(validationResult.value)
+    }
+
+    const resultOrError = await this.authenticateStudentUseCase.execute({ email, password })
+
+    if (resultOrError.isLeft()) {
+      const error = resultOrError.value
+
+      switch (error.constructor) {
+        case StudentDoesNotExistsError:
+          return unauthorized(error)
+
+        default:
+          return clientError(error)
+      }
     }
 
     return created()

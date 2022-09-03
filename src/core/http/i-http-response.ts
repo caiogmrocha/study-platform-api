@@ -21,6 +21,15 @@ export const clientError = (error: Error): HttpResponse => {
   };
 };
 
+export const unauthorized = (error: Error): HttpResponse => {
+  return {
+    body: {
+      error
+    },
+    statusCode: 401
+  }
+}
+
 export const conflict = (error: Error): HttpResponse => {
   return {
     body: {
