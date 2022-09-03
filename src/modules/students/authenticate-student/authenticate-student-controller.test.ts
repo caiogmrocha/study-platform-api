@@ -3,6 +3,7 @@ import { BcryptEncryptionAdapter } from '@/core/encryption/bcrypt-encryption-ada
 import { PrismaStudentsRepository } from '@/repositories/prisma-students-repository'
 import { ValidationError } from '@/validations/errors/validation-error'
 import request from 'supertest'
+import { InvalidCrendentialsError } from '../errors/invalid-credentials-error'
 import { StudentDoesNotExistsError } from '../errors/student-does-not-exists-error'
 import { RegisterStudentUseCase } from '../register-student/register-student-use-case'
 
@@ -50,6 +51,22 @@ describe('[e2e] AuthenticateStudentController', () => {
     expect(response.body).toEqual(expect.objectContaining({
       error: expect.objectContaining({
         name: StudentDoesNotExistsError.name
+      })
+    }))
+  })
+
+  it('should return 401 if the provided e-mail and password does not match', async () => {
+    const requestData = {
+      email: 'any@email.com',
+      password: 'other_password'
+    }
+
+    const response = await request(app).post('/students/login').send(requestData)
+
+    expect(response.status).toBe(401)
+    expect(response.body).toEqual(expect.objectContaining({
+      error: expect.objectContaining({
+        name: InvalidCrendentialsError.name
       })
     }))
   })
