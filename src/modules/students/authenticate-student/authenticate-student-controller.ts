@@ -1,5 +1,5 @@
 import { IController } from "@/core/http/i-controller";
-import { clientError, created, HttpResponse, unauthorized, unprocessable } from "@/core/http/i-http-response";
+import { clientError, HttpResponse, ok, unauthorized, unprocessable } from "@/core/http/i-http-response";
 import { Either, left, right } from "@/core/logic/Either";
 import { AuthenticateStudentUseCase } from '@/modules/students/authenticate-student/authenticate-student-use-case';
 import { ValidationError } from "@/validations/errors/validation-error";
@@ -44,7 +44,7 @@ export class AuthenticateStudentController implements IController<AuthenticateSt
       }
     }
 
-    return created()
+    return ok(resultOrError.value)
   }
 
   async validate(request: AuthenticateStudentControllerRequest): Promise<Either<ValidationError, null>> {

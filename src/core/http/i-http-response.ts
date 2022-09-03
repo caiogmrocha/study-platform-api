@@ -5,6 +5,13 @@ export interface HttpResponse {
   statusCode: number;
 }
 
+export const ok = (data: any): HttpResponse => {
+  return {
+    body: data,
+    statusCode: 200
+  }
+}
+
 export const created = (): HttpResponse => {
   return {
     body: null,
