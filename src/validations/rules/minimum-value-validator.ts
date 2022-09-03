@@ -20,5 +20,11 @@ export class MinimumValueValidator implements IValidator {
         return new MinimumValueError(this.fieldName, this.field, this.minimum)
       }
     }
+
+    if (Array.isArray(this.field)) {
+      if (this.field.length < this.minimum) {
+        return new MinimumValueError(this.fieldName, this.field, this.minimum)
+      }
+    }
   }
 }
