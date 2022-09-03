@@ -7,6 +7,7 @@ import { IsEmailValidator } from "@/validations/rules/is-email-validator";
 import { MinimumValueValidator } from "@/validations/rules/minimum-value-validator";
 import { RequiredFieldValidator } from "@/validations/rules/required-field-validator";
 import { ValidationCompositor } from "@/validations/validation-compositor";
+import { InvalidCrendentialsError } from "../errors/invalid-credentials-error";
 import { StudentDoesNotExistsError } from "../errors/student-does-not-exists-error";
 
 export interface AuthenticateStudentControllerRequest {
@@ -33,6 +34,9 @@ export class AuthenticateStudentController implements IController<AuthenticateSt
 
       switch (error.constructor) {
         case StudentDoesNotExistsError:
+          return unauthorized(error)
+
+        case InvalidCrendentialsError:
           return unauthorized(error)
 
         default:
