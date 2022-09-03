@@ -19,4 +19,13 @@ describe('Minimum Value Validator', () => {
 
     expect(error).toEqual(new MinimumValueError('any_field', anyField, 101))
   })
+
+  it('should return MinimumValueError if the provided field is invalid array', () => {
+    const anyField = [ 1, 2, 3 ]
+    const sut = new MinimumValueValidator('any_field', anyField, 4)
+
+    const error = sut.validate()
+
+    expect(error).toEqual(new MinimumValueError('any_field', anyField, 4))
+  })
 })
