@@ -1,4 +1,5 @@
 import { app } from '@/app'
+import { FakeEncryption } from '@/core/encryption/fake-encription'
 import { PrismaStudentsRepository } from '@/repositories/prisma-students-repository'
 import { ValidationError } from '@/validations/errors/validation-error'
 import request from 'supertest'
@@ -7,7 +8,8 @@ import { RegisterStudentUseCase } from './register-student-use-case'
 
 const makeRegisterStudentUseCase = (): RegisterStudentUseCase => {
   const prismaStudentsRepository = new PrismaStudentsRepository()
-  const registerStudentUseCase = new RegisterStudentUseCase(prismaStudentsRepository)
+  const encription = new FakeEncryption()
+  const registerStudentUseCase = new RegisterStudentUseCase(prismaStudentsRepository, encription)
 
   return registerStudentUseCase
 }
@@ -31,9 +33,9 @@ describe('[e2e] Register Student Controller', () => {
 
   it('should return 422 if invalid data is provided', async () => {
     const response = await request(app).post('/students/register').send({
-      name: '', // missing name param
+      name: 'any_name',
       email: 'any@email.com',
-      password: 'any_password',
+      password: 'any_passwor', // short password
       phone: '00000000000',
       image: 'path/to/image',
       bio: 'any_bio'
