@@ -34,6 +34,7 @@ jobs:
       DATABASE_PASS: password
       DATABASE_HOST: localhost
       DATABASE_PORT: 3306
+      JWT_SECRET: 6972a40073dd5a2d2951ea46f9cd1276
 
     steps:
 
@@ -60,5 +61,6 @@ jobs:
           echo DATABASE_PASS=$DATABASE_PASS >> .env.test
           echo DATABASE_HOST=$DATABASE_HOST >> .env.test
           echo DATABASE_PORT=$DATABASE_PORT >> .env.test
+          echo JWT_SECRET=$JWT_SECRET >> .env.test
       - name: Run e2e tests
         run: npm run test:e2e
