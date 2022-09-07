@@ -6,7 +6,8 @@ export const adaptRoute = (controller: IController) => {
     const requestData = {
       ...request.body,
       ...request.params,
-      ...request.query
+      ...request.query,
+      files: request.files || [ request.file ]
     };
 
     const httpResponse = await controller.handle(requestData);
