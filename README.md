@@ -27,13 +27,6 @@ Para configurar o ambiente de desenvolvimento você deverá seguir os passos aba
 
 Duplique o arquivo `.env.example`, remova o sufixo `.example` e o preencha com as informações relacionadas a banco de dados e a chave secreta para autenticação do JWT.
 
-```env
-# .env
-
-DATABASE_URL="mysql://your_database_username:your_database_password@your_database_host:your_database_port/your_database_name"
-JWT_SECRET=s3tarandomstr1ngw1thnumb3rsh3r3
-```
-
 Instale as dependências do sistema usando o comando `npm install`.
 
 Após instalar as depêndencias do sistema você poderá executar o comando `npm run dev` e executar a aplicação em ambiente de desenvolvimento.
@@ -43,13 +36,6 @@ Após instalar as depêndencias do sistema você poderá executar o comando `npm
 Para configurar o ambiente de testes você deverá seguir os passos abaixo.
 
 Duplique o arquivo `.env.test.example`, remova o sufixo `.example` e o preencha com as informações relacionadas a banco de dados e a chave secreta para autenticação do JWT.
-
-```env
-DATABASE_USER=root
-DATABASE_PASS=password
-DATABASE_HOST=localhost
-DATABASE_PORT=3306
-```
 
 Para executar os testes unitários você pode usar o comando `npm run test:unit`.
 
