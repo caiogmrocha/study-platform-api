@@ -14,7 +14,6 @@ export interface RegisterStudentControllerRequest {
   email: string;
   password: string;
   phone: string;
-  image: string;
   bio: string;
 }
 
@@ -52,7 +51,7 @@ export class RegisterStudentController implements IController<RegisterStudentCon
   }
 
   async validate(request: RegisterStudentControllerRequest): Promise<Either<ValidationError, null>> {
-    const { name, email, password, phone, image, bio } = request
+    const { name, email, password, phone, bio } = request
 
     const validationCompositor = new ValidationCompositor([
       new RequiredFieldValidator('name', name),
@@ -64,7 +63,6 @@ export class RegisterStudentController implements IController<RegisterStudentCon
       new MinimumValueValidator('password', password, 12),
 
       new RequiredFieldValidator('phone', phone),
-      new RequiredFieldValidator('image', image),
       new RequiredFieldValidator('bio', bio),
     ])
 

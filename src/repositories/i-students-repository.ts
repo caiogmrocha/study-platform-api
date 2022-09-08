@@ -5,7 +5,7 @@ export interface IStudentData {
   email: string;
   password: string;
   phone: string;
-  image: string;
+  image: string | null;
   bio: string;
 }
 

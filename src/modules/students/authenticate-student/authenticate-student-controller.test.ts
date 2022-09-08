@@ -19,7 +19,6 @@ describe('[e2e] AuthenticateStudentController', () => {
       email: 'any@email.com',
       password: 'any_password',
       phone: '00000000000',
-      image: 'path/to/image',
       bio: 'any_bio'
     })
   })
@@ -40,7 +39,7 @@ describe('[e2e] AuthenticateStudentController', () => {
         email: 'any@email.com',
         password: expect.any(String),
         phone: '00000000000',
-        image: 'path/to/image',
+        image: null,
         bio: 'any_bio'
       }),
       token: expect.any(String)

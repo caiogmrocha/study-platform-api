@@ -9,7 +9,6 @@ export interface IRegisterStudentDTO {
   email: string;
   password: string;
   phone: string;
-  image: string;
   bio: string;
 }
 
@@ -39,8 +38,8 @@ export class RegisterStudentUseCase {
       email: data.email,
       password: hashedPassword,
       phone: data.phone,
-      image: data.image,
-      bio: data.bio
+      bio: data.bio,
+      image: null
     })
 
     const student = new Student({
@@ -48,8 +47,8 @@ export class RegisterStudentUseCase {
       email: data.email,
       password: hashedPassword,
       phone: data.phone,
-      image: data.image,
-      bio: data.bio
+      bio: data.bio,
+      image: null
     })
 
     return right(student)

@@ -29,7 +29,6 @@ describe('Register Student Use Case', () => {
       email: 'any@email.com',
       password: 'any_password',
       phone: '00000000000',
-      image: 'path/to/image',
       bio: 'any_bio'
     }
 
@@ -42,7 +41,7 @@ describe('Register Student Use Case', () => {
       email: data.email,
       password: expect.any(String),
       phone: data.phone,
-      image: data.image,
+      image: null,
       bio: data.bio
     }))
   })
@@ -63,7 +62,6 @@ describe('Register Student Use Case', () => {
       email: 'any@email.com',
       password: 'any_password',
       phone: '11111111111',
-      image: 'path/to/image',
       bio: 'any_bio'
     }
 
@@ -89,7 +87,6 @@ describe('Register Student Use Case', () => {
       email: 'other@email.com',
       password: 'any_password',
       phone: '00000000000',
-      image: 'path/to/image',
       bio: 'any_bio'
     }
 

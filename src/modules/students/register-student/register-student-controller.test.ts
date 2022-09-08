@@ -21,7 +21,6 @@ describe('[e2e] Register Student Controller', () => {
       email: 'any@email.com',
       password: 'any_password',
       phone: '00000000000',
-      image: 'path/to/image',
       bio: 'any_bio'
     }
 
@@ -37,7 +36,6 @@ describe('[e2e] Register Student Controller', () => {
       email: 'any@email.com',
       password: 'any_passwor', // short password
       phone: '00000000000',
-      image: 'path/to/image',
       bio: 'any_bio'
     })
 
@@ -56,7 +54,6 @@ describe('[e2e] Register Student Controller', () => {
       email: 'any@email.com',
       password: 'any_password',
       phone: '00000000000',
-      image: 'path/to/image',
       bio: 'any_bio'
     }
 
@@ -78,7 +75,6 @@ describe('[e2e] Register Student Controller', () => {
       email: 'any@email.com',
       password: 'any_password',
       phone: '00000000000',
-      image: 'path/to/image',
       bio: 'any_bio'
     }
 

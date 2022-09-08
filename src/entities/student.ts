@@ -9,7 +9,7 @@ export interface IStudentProps {
   email: string;
   password: string;
   phone: string;
-  image: string;
+  image: string | null;
   bio: string;
 
   following?: Follow[];
@@ -40,7 +40,7 @@ export class Student {
     return this.props.phone
   }
 
-  get image(): string {
+  get image(): string | null {
     return this.props.image
   }
 
@@ -48,11 +48,15 @@ export class Student {
     return this.props.bio
   }
 
-  constructor ({ id, ...props }: IStudentProps) {
+  constructor ({ id, image, ...props }: IStudentProps) {
     if (!id) {
       id = uuid();
     }
 
-    this.props = { id, ...props }
+    if (!image) {
+      image = null;
+    }
+
+    this.props = { id, image, ...props }
   }
 }
