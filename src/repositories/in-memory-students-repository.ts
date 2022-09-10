@@ -6,6 +6,22 @@ export class InMemoryStudentsRepository implements IStudentsRepository {
     private students: Student[] = []
   ) {}
 
+  async findById(id: string): Promise<Student | void> {
+    const student = this.students.find(student => student.id === id)
+
+    if (student) {
+      return new Student({
+        id: student.id,
+        name: student.name,
+        email: student.email,
+        password: student.password,
+        phone: student.phone,
+        image: student.image,
+        bio: student.bio,
+      })
+    }
+  }
+
   async findByEmail(email: string): Promise<Student | void> {
     const student = this.students.find(student => student.email === email)
 

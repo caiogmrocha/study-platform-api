@@ -10,6 +10,7 @@ export interface IStudentData {
 }
 
 export interface IStudentsRepository {
+  findById(id: string): Promise<Student | void>;
   findByEmail(email: string): Promise<Student | void>;
   findByPhone(phone: string): Promise<Student | void>;
   create(data: IStudentData): Promise<void>;

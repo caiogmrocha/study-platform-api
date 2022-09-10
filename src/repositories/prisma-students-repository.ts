@@ -3,6 +3,14 @@ import { IStudentData, IStudentsRepository } from "./i-students-repository";
 import { prisma } from "./prisma";
 
 export class PrismaStudentsRepository implements IStudentsRepository {
+  async findById(id: string): Promise<void | Student> {
+    const student = await prisma.student.findUnique({ where: { id } })
+
+    if (student) {
+      return new Student(student)
+    }
+  }
+
   async findByEmail(email: string): Promise<void | Student> {
     const student = await prisma.student.findFirst({ where: { email } })
 
