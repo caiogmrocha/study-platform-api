@@ -13,11 +13,16 @@ export class UploadStudentImageUseCase {
   ) {}
 
   async execute({ id, imagePath }: IUploadStudentImageDTO): Promise<Either<Error, null>> {
-    const studentFoundedById = await this.studentRepository.findById(id)
+    const student = await this.studentRepository.findById(id)
 
-    if (!studentFoundedById) {
+    if (!student) {
       return left(new StudentDoesNotExistsError(id, 'id'))
     }
+
+    await this.studentRepository.update({
+      ...student.props,
+      image: imagePath,
+    }, id)
 
     return right(null)
   }

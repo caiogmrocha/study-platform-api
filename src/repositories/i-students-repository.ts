@@ -14,4 +14,5 @@ export interface IStudentsRepository {
   findByEmail(email: string): Promise<Student | void>;
   findByPhone(phone: string): Promise<Student | void>;
   create(data: IStudentData): Promise<void>;
+  update(data: IStudentData, id: string): Promise<void>;
 }
