@@ -15,18 +15,22 @@ export class UploadStudentImageUseCase {
     private readonly fileSystem: IFileSystem
   ) {}
 
-  async execute({ id, image }: IUploadStudentImageDTO): Promise<Either<Error, null>> {
+  async execute({ id, image }: IUploadStudentImageDTO): Promise<Either<Error, string>> {
     const student = await this.studentRepository.findById(id)
 
     if (!student) {
       return left(new StudentDoesNotExistsError(id, 'id'))
     }
 
-    // await this.studentRepository.update({
-    //   ...student.props,
-    //   image: image.,
-    // }, id)
+    const imageFileName = Date.now() + '.png'
 
-    return right(null)
+    await this.fileSystem.store(image.data, imageFileName)
+
+    await this.studentRepository.update({
+      ...student.props,
+      image: imageFileName,
+    }, id)
+
+    return right(imageFileName)
   }
 }

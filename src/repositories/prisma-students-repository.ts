@@ -32,4 +32,11 @@ export class PrismaStudentsRepository implements IStudentsRepository {
       data
     })
   }
+
+  async update(data: IStudentData, id: string): Promise<void> {
+    await prisma.student.update({
+      where: { id },
+      data
+    })
+  }
 }

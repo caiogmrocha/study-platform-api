@@ -1,9 +1,11 @@
 import { IController } from "@/core/http/i-controller";
-import { UploadStudentImageUseCase } from '@/modules/students/upload-student-image/upload-student-image-use-case'
-import { UploadStudentImageController } from '@/modules/students/upload-student-image/upload-student-image-controller'
+import { UploadStudentImageController } from '@/modules/students/upload-student-image/upload-student-image-controller';
+import { UploadStudentImageUseCase } from '@/modules/students/upload-student-image/upload-student-image-use-case';
+import { PrismaStudentsRepository } from "@/repositories/prisma-students-repository";
 
 export const makeUploadStudentImageController = () : IController => {
-  const uploadStudentImageUseCase = new UploadStudentImageUseCase()
+  const prismaStudentRepository = new PrismaStudentsRepository()
+  const uploadStudentImageUseCase = new UploadStudentImageUseCase(prismaStudentRepository)
   const uploadStudentImageController = new UploadStudentImageController(uploadStudentImageUseCase)
 
   return uploadStudentImageController
