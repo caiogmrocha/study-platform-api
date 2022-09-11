@@ -1,8 +1,10 @@
+import { localDiskFileSystemConfig } from '@/core/file-system/config/local-disk-file-system-config';
+import { File } from '@/core/file-system/file';
+import { FileSystem } from '@/core/file-system/file-system';
 import { Student } from '@/entities/student';
 import { UploadStudentImageUseCase } from '@/modules/students/upload-student-image/upload-student-image-use-case';
 import { IStudentsRepository } from '@/repositories/i-students-repository';
 import { InMemoryStudentsRepository } from '@/repositories/in-memory-students-repository';
-import { randomUUID } from 'crypto';
 import { StudentDoesNotExistsError } from '../errors/student-does-not-exists-error';
 
 type SutTypes = {
@@ -12,7 +14,8 @@ type SutTypes = {
 
 const makeSut = (students: Student[]): SutTypes => {
   const studentRepository = new InMemoryStudentsRepository(students);
-  const sut = new UploadStudentImageUseCase(studentRepository);
+  const fileSystem = new FileSystem(localDiskFileSystemConfig)
+  const sut = new UploadStudentImageUseCase(studentRepository, fileSystem);
 
   return {
     sut,
@@ -21,10 +24,16 @@ const makeSut = (students: Student[]): SutTypes => {
 }
 
 describe('Upload Student Image', () => {
-  it('should be able to save the image path of student', async () => {
-    const imagePath = 'path/to/image';
+  it('should return StudentDoesNotExistsError if student does not exists', async () => {
+    const image: File = new File({
+      fieldName: 'image',
+      mimeType: 'image/png',
+      size: 1024,
+      data: Buffer.from('some_thing')
+    });
     const { sut } = makeSut([
       new Student({
+        id: 'any_id',
         name: 'any_name',
         email: 'any@email.com',
         password: 'any_password',
@@ -34,39 +43,9 @@ describe('Upload Student Image', () => {
       })
     ])
 
-    const resultOrError = await sut.execute({ id: 'any_id', imagePath })
+    const resultOrError = await sut.execute({ id: 'other_id', image })
 
     expect(resultOrError.isLeft()).toBeTruthy()
-    expect(resultOrError.value).toEqual(new StudentDoesNotExistsError('any_id', 'id'))
-  })
-
-  it('should be able to save the image path of student', async () => {
-    const id = randomUUID()
-    const imagePath = 'path/to/image';
-    const { sut, studentRepository } = makeSut([
-      new Student({
-        id,
-        name: 'any_name',
-        email: 'any@email.com',
-        password: 'any_password',
-        phone: '00000000000',
-        image: null,
-        bio: 'any_bio'
-      })
-    ])
-
-    const resultOrError = await sut.execute({ id, imagePath })
-    const student = await studentRepository.findById(id)
-
-    expect(resultOrError.isRight()).toBeTruthy()
-    expect(student).toEqual(new Student({
-      id,
-      name: 'any_name',
-      email: 'any@email.com',
-      password: 'any_password',
-      phone: '00000000000',
-      image: imagePath,
-      bio: 'any_bio'
-    }))
+    expect(resultOrError.value).toEqual(new StudentDoesNotExistsError('other_id', 'id'))
   })
 })
