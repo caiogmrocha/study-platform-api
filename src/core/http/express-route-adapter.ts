@@ -1,13 +1,30 @@
 import { Request, Response } from 'express';
+import { UploadedFile } from 'express-fileupload';
+import { File } from '../file-system/file';
 import { IController } from './i-controller';
 
 export const adaptRoute = (controller: IController) => {
   return async (request: Request, response: Response) => {
+    let adaptedFiles: { [key: string]: File } = {}
+
+    if (request.files) {
+      Object.entries(request.files).forEach(([ key, files ]) => {
+        files = files as UploadedFile
+
+        adaptedFiles[key] = new File({
+          fieldName: key,
+          data: files.data,
+          mimeType: files.mimetype,
+          size: files.size
+        })
+      })
+    }
+
     const requestData = {
       ...request.body,
       ...request.params,
       ...request.query,
-      files: request.files || [ request.file ]
+      files: adaptedFiles
     };
 
     const httpResponse = await controller.handle(requestData);

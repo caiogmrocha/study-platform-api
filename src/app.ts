@@ -1,8 +1,13 @@
 import cors from 'cors';
 import express from 'express';
+import fileUpload from 'express-fileupload';
 import { router } from './routes';
 
 const app = express();
+
+app.use(fileUpload({
+  createParentPath: false
+}))
 
 app.use(cors({
   exposedHeaders: ['x-total-count', 'Content-Type', 'Content-Length']
