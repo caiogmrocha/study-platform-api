@@ -26,6 +26,8 @@ export class MimeTypeValidator implements IValidator {
       if (!this.acceptedMimetypes.includes(this.field.mimeType as IMimeTypes)) {
         return new MimeTypeError(this.fieldName, this.acceptedMimetypes)
       }
+    } else {
+      return new MimeTypeError(this.fieldName)
     }
   }
 }
