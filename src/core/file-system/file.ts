@@ -1,7 +1,15 @@
+export type IMimeTypes = (
+  | 'image/jpeg'
+  | 'image/png'
+  | 'image/svg+xml'
+  | 'image/gif'
+  | 'image/x-icon'
+)
+
 export interface IFileProps {
   fieldName: string;
   data: Buffer;
-  mimeType: string;
+  mimeType: IMimeTypes;
   size: number;
 }
 
