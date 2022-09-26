@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { UploadedFile } from 'express-fileupload';
-import { File } from '../file-system/file';
+import { File, IMimeTypes } from '../file-system/file';
 import { IController } from './i-controller';
 
 export const adaptRoute = (controller: IController) => {
@@ -8,14 +8,14 @@ export const adaptRoute = (controller: IController) => {
     let adaptedFiles: { [key: string]: File } = {}
 
     if (request.files) {
-      Object.entries(request.files).forEach(([ key, files ]) => {
-        files = files as UploadedFile
+      Object.entries(request.files).forEach(([ key, file ]) => {
+        file = file as UploadedFile
 
         adaptedFiles[key] = new File({
           fieldName: key,
-          data: files.data,
-          mimeType: files.mimetype,
-          size: files.size
+          data: file.data,
+          mimeType: file.mimetype as IMimeTypes,
+          size: file.size
         })
       })
     }
