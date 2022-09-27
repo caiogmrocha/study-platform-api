@@ -1,7 +1,10 @@
 import { app } from '@/app'
 import { BcryptEncryptionAdapter } from '@/core/encryption/bcrypt-encryption-adapter'
+import { localDiskFileSystemConfig } from '@/core/file-system/config/local-disk-file-system-config'
 import { PrismaStudentsRepository } from '@/repositories/prisma-students-repository'
 import { ValidationError } from '@/validations/errors/validation-error'
+import { readdir, unlink } from 'fs/promises'
+import path from 'path'
 import request from 'supertest'
 import { StudentDoesNotExistsError } from '../errors/student-does-not-exists-error'
 import { RegisterStudentUseCase } from '../register-student/register-student-use-case'
@@ -19,8 +22,16 @@ const makeRegisterStudentUseCase = () => {
 }
 
 describe('[e2e] UploadStudentImageController', () => {
-  it('should return 404 if student does not exists', async () => {
-    const { registerStudentUseCase } = makeRegisterStudentUseCase()
+  afterAll(async () => {
+    const files = await readdir(localDiskFileSystemConfig.path)
+
+    files.forEach(async fileName => {
+      await unlink(path.join(localDiskFileSystemConfig.path, fileName))
+    })
+  })
+
+  it('should return 200 if image has been storaged', async () => {
+    const { registerStudentUseCase, prismaStudentsRepository } = makeRegisterStudentUseCase()
     const student = await registerStudentUseCase.execute({
       name: 'any_name',
       email: 'any@email.com',
@@ -35,6 +46,20 @@ describe('[e2e] UploadStudentImageController', () => {
       .attach('image', Buffer.from('any_thing'), {
         filename: 'any_file.png'
       });
+
+    expect(response.status).toBe(200)
+    expect(response.body).toEqual({
+      image: expect.any(String)
+    })
+  })
+
+  it('should return 404 if student does not exists', async () => {
+    const response = await request(app)
+      .post(`/students/upload-image/any_id`)
+      .attach('image', Buffer.from('any_thing'), {
+        filename: 'any_file.png'
+      });
+
 
     expect(response.status).toBe(404)
     expect(response.body).toEqual(expect.objectContaining({
