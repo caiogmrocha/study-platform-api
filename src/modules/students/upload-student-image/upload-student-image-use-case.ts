@@ -25,7 +25,6 @@ export class UploadStudentImageUseCase {
     const imageFileName = Date.now() + '.png'
 
     await this.fileSystem.store(image.data, imageFileName)
-
     await this.studentRepository.update({
       ...student.props,
       image: imageFileName,

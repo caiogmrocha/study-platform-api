@@ -28,6 +28,15 @@ export const clientError = (error: Error): HttpResponse => {
   };
 };
 
+export const notFound = (error: Error): HttpResponse => {
+  return {
+    body: {
+      error,
+    },
+    statusCode: 404
+  }
+}
+
 export const unauthorized = (error: Error): HttpResponse => {
   return {
     body: {
