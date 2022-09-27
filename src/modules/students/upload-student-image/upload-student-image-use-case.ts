@@ -22,7 +22,7 @@ export class UploadStudentImageUseCase {
       return left(new StudentDoesNotExistsError(id, 'id'))
     }
 
-    const imageFileName = Date.now() + '.png'
+    const imageFileName = Date.now() + image.extension
 
     await this.fileSystem.store(image.data, imageFileName)
     await this.studentRepository.update({
@@ -30,6 +30,6 @@ export class UploadStudentImageUseCase {
       image: imageFileName,
     }, id)
 
-    return right(imageFileName)
+    return right(this.fileSystem.getFilePath(imageFileName))
   }
 }

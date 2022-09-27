@@ -33,16 +33,7 @@ export class RegisterStudentUseCase {
 
     const hashedPassword = await this.encription.hash(data.password)
 
-    await this.studentRepository.create({
-      name: data.name,
-      email: data.email,
-      password: hashedPassword,
-      phone: data.phone,
-      bio: data.bio,
-      image: null
-    })
-
-    const student = new Student({
+    const student = await this.studentRepository.create({
       name: data.name,
       email: data.email,
       password: hashedPassword,

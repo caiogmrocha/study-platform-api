@@ -3,7 +3,7 @@ import { IStudentData, IStudentsRepository } from "./i-students-repository";
 import { prisma } from "./prisma";
 
 export class PrismaStudentsRepository implements IStudentsRepository {
-  async findById(id: string): Promise<void | Student> {
+  async findById(id: string): Promise<Student | void> {
     const student = await prisma.student.findUnique({ where: { id } })
 
     if (student) {
@@ -11,7 +11,7 @@ export class PrismaStudentsRepository implements IStudentsRepository {
     }
   }
 
-  async findByEmail(email: string): Promise<void | Student> {
+  async findByEmail(email: string): Promise<Student | void> {
     const student = await prisma.student.findFirst({ where: { email } })
 
     if (student) {
@@ -19,7 +19,7 @@ export class PrismaStudentsRepository implements IStudentsRepository {
     }
   }
 
-  async findByPhone(phone: string): Promise<void | Student> {
+  async findByPhone(phone: string): Promise<Student | void> {
     const student = await prisma.student.findFirst({ where: { phone } })
 
     if (student) {
@@ -27,16 +27,20 @@ export class PrismaStudentsRepository implements IStudentsRepository {
     }
   }
 
-  async create(data: IStudentData): Promise<void> {
-    await prisma.student.create({
+  async create(data: IStudentData): Promise<Student> {
+    const student = await prisma.student.create({
       data
     })
+
+    return new Student(student)
   }
 
-  async update(data: IStudentData, id: string): Promise<void> {
-    await prisma.student.update({
+  async update(data: IStudentData, id: string): Promise<Student> {
+    const student = await prisma.student.update({
       where: { id },
       data
     })
+
+    return new Student(student)
   }
 }

@@ -3,4 +3,5 @@ export interface IFileSystem {
   delete(fileName: string): Promise<boolean>;
   checkIfExists(fileName: string): Promise<boolean>;
   getFile(fileName: string): Promise<Buffer>;
+  getFilePath(fileName: string): string;
 }

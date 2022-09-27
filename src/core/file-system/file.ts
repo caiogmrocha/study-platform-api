@@ -6,6 +6,14 @@ export type IMimeTypes = (
   | 'image/x-icon'
 )
 
+export type IExtensions = (
+  | '.jpg' | '.jpeg' | '.jfif' | '.pjpeg' | '.pjp'
+  | '.png'
+  | '.svg'
+  | '.gif'
+  | '.ico' | '.cur'
+)
+
 export interface IFileProps {
   fieldName: string;
   data: Buffer;
@@ -14,6 +22,13 @@ export interface IFileProps {
 }
 
 export class File {
+  private readonly extensionsToMimes: { [key in IMimeTypes]: Array<IExtensions> } = {
+    'image/jpeg': ['.jpg', '.jpeg', '.jfif', '.pjpeg', '.pjp'],
+    'image/png': ['.png'],
+    'image/gif': ['.gif'],
+    'image/svg+xml': ['.svg'],
+    'image/x-icon': ['.ico', '.cur']
+  }
   private readonly props: IFileProps
 
   constructor (props: IFileProps) {
@@ -28,11 +43,15 @@ export class File {
     return this.props.data
   }
 
-  get mimeType(): string {
+  get size(): number {
+    return this.props.size
+  }
+
+  get mimeType(): IMimeTypes {
     return this.props.mimeType
   }
 
-  get size(): number {
-    return this.props.size
+  get extension(): IExtensions {
+    return this.extensionsToMimes[this.mimeType][0]
   }
 }

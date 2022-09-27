@@ -1,6 +1,6 @@
 import { File } from "@/core/file-system/file";
 import { IController } from "@/core/http/i-controller";
-import { clientError, created, HttpResponse, notFound, unprocessable } from "@/core/http/i-http-response";
+import { clientError, HttpResponse, notFound, ok, unprocessable } from "@/core/http/i-http-response";
 import { Either, left, right } from '@/core/logic/Either';
 import { UploadStudentImageUseCase } from '@/modules/students/upload-student-image/upload-student-image-use-case';
 import { ValidationError } from '@/validations/errors/validation-error';
@@ -47,7 +47,9 @@ export class UploadStudentImageController implements IController<UploadStudentIm
       }
     }
 
-    return created()
+    return ok({
+      image: resultOrError.value
+    })
   }
 
   async validate(request: UploadStudentImageControllerRequest): Promise<Either<ValidationError, null>> {

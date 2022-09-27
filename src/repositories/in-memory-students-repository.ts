@@ -54,11 +54,15 @@ export class InMemoryStudentsRepository implements IStudentsRepository {
     }
   }
 
-  async create(data: IStudentData): Promise<void> {
-    this.students.push(new Student(data))
+  async create(data: IStudentData): Promise<Student> {
+    const student = new Student(data);
+
+    this.students.push(student)
+
+    return student
   }
 
-  async update(data: IStudentData, id: string): Promise<void> {
+  async update(data: IStudentData, id: string): Promise<Student> {
     this.students = this.students.map(student => {
       if (student.id === id) {
         student = Object.assign({}, student, data)
@@ -68,5 +72,7 @@ export class InMemoryStudentsRepository implements IStudentsRepository {
 
       return student
     })
+
+    return this.students.find(student => student.id === id) as Student
   }
 }

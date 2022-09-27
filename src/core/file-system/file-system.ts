@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import { access, readFile, unlink, writeFile } from 'fs/promises';
 import { IFileSystemConfig } from "./config/i-file-system-config";
 import { IFileSystem } from './i-file-system';
@@ -37,5 +38,9 @@ export class FileSystem implements IFileSystem {
     const file = await readFile(`${this.config.path}/${fileName}`)
 
     return file
+  }
+
+  getFilePath(fileName: string): string {
+    return `${process.env.APP_URL}/uploads/${fileName}`
   }
 }
