@@ -44,7 +44,9 @@ describe('Upload Student Image', () => {
     const files = await readdir(localDiskFileSystemConfig.path)
 
     files.forEach(async fileName => {
-      await unlink(path.join(localDiskFileSystemConfig.path, fileName))
+      if (fileName !== '.gitkeep') {
+        await unlink(path.join(localDiskFileSystemConfig.path, fileName))
+      }
     })
   })
 
