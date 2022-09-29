@@ -8,6 +8,7 @@ import path from 'path'
 import request from 'supertest'
 import { StudentDoesNotExistsError } from '../errors/student-does-not-exists-error'
 import { RegisterStudentUseCase } from '../register-student/register-student-use-case'
+import { makeStudentAndAuthenticate } from '../tests/make-student-and-authenticate'
 
 const makeRegisterStudentUseCase = () => {
   const prismaStudentsRepository = new PrismaStudentsRepository()
@@ -25,24 +26,19 @@ describe('[e2e] UploadStudentImageController', () => {
   afterAll(async () => {
     const files = await readdir(localDiskFileSystemConfig.path)
 
-    files.forEach(async fileName => {
-      await unlink(path.join(localDiskFileSystemConfig.path, fileName))
+    files.forEach(async (fileName) => {
+      if (fileName !== '.gitkeep') {
+        await unlink(path.join(localDiskFileSystemConfig.path, fileName))
+      }
     })
   })
 
   it('should return 200 if image has been storaged', async () => {
-    const { registerStudentUseCase, prismaStudentsRepository } = makeRegisterStudentUseCase()
-    const student = await registerStudentUseCase.execute({
-      name: 'any_name',
-      email: 'any@email.com',
-      password: 'any_password',
-      phone: '00000000000',
-      bio: 'any_bio'
-    })
-    const studentId = (student.isRight() && student.value.id) as string
+    const { student, token } = await makeStudentAndAuthenticate()
 
     const response = await request(app)
-      .post(`/students/upload-image/${studentId}`)
+      .post(`/students/upload-image/${student.id}`)
+      .set({ authorization: token })
       .attach('image', Buffer.from('any_thing'), {
         filename: 'any_file.png'
       });
@@ -54,8 +50,11 @@ describe('[e2e] UploadStudentImageController', () => {
   })
 
   it('should return 404 if student does not exists', async () => {
+    const { token } = await makeStudentAndAuthenticate()
+
     const response = await request(app)
       .post(`/students/upload-image/any_id`)
+      .set({ authorization: token })
       .attach('image', Buffer.from('any_thing'), {
         filename: 'any_file.png'
       });
@@ -70,18 +69,11 @@ describe('[e2e] UploadStudentImageController', () => {
   })
 
   it('should return 422 if provided file not is in accepted mimetypes', async () => {
-    const { registerStudentUseCase } = makeRegisterStudentUseCase()
-    const student = await registerStudentUseCase.execute({
-      name: 'any_name',
-      email: 'any@email.com',
-      password: 'any_password',
-      phone: '00000000000',
-      bio: 'any_bio'
-    })
-    const studentId = (student.isRight() && student.value.id) as string
+    const { student, token } = await makeStudentAndAuthenticate()
 
     const response = await request(app)
-      .post(`/students/upload-image/${studentId}`)
+      .post(`/students/upload-image/${student.id}`)
+      .set({ authorization: token })
       .attach('image', Buffer.from('any_thing'), {
         filename: 'any_file.pdf'
       })

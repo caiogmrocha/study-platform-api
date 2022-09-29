@@ -64,10 +64,10 @@ export const unprocessable = (error: ValidationError): HttpResponse => {
   };
 };
 
-export const serverError = (message: string): HttpResponse => {
+export const serverError = (error: Error): HttpResponse => {
   return {
     body: {
-      message
+      error
     },
     statusCode: 500
   };

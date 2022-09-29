@@ -13,4 +13,10 @@ export class JwtTokenAuthenticationAdapter implements ITokenAuthentication {
 
     return token
   }
+
+  async verify(accessToken: string): Promise<any> {
+    const decoded = jwt.verify(accessToken, this.secret)
+
+    return decoded
+  }
 }
