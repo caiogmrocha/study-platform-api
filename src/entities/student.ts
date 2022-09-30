@@ -9,7 +9,7 @@ export interface IStudentProps {
   email: string;
   password: string;
   phone: string;
-  image: string | null;
+  image?: string | null;
   bio: string;
 
   following?: Follow[];
@@ -41,7 +41,7 @@ export class Student {
   }
 
   get image(): string | null {
-    return this.props.image
+    return this.props.image || null
   }
 
   get bio(): string {

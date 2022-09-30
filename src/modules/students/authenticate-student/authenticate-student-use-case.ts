@@ -39,7 +39,7 @@ export class AuthenticateStudentUseCase {
       return left(new InvalidCrendentialsError())
     }
 
-    const token = await this.tokenAuthentication.sign({ id: studentFoundedByEmail.id }, 86400)
+    const token = await this.tokenAuthentication.sign({ studentId: studentFoundedByEmail.id }, 86400)
 
     return right({
       student: studentFoundedByEmail,

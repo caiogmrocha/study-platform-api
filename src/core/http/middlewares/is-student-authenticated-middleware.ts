@@ -4,7 +4,7 @@ import { HttpResponse, ok, serverError, unauthorized } from "../i-http-response"
 import { IMiddleware } from "../i-middleware";
 
 export interface DecodedJwtToken {
-  id: string;
+  studentId: string;
 }
 
 export interface IsStudentAuthenticatedMiddlewareRequest {
@@ -24,7 +24,7 @@ export class IsStudentAuthenticatedMiddleware implements IMiddleware<IsStudentAu
       if (accessToken) {
         const decoded = await this.tokenAuthentication.verify(accessToken) as DecodedJwtToken
 
-        return ok({ studentId: decoded.id })
+        return ok({ studentId: decoded.studentId })
       } else {
         return unauthorized(new AccessDeniedError())
       }
