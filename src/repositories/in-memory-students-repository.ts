@@ -65,7 +65,7 @@ export class InMemoryStudentsRepository implements IStudentsRepository {
   async update(data: IStudentData, id: string): Promise<Student> {
     this.students = this.students.map(student => {
       if (student.id === id) {
-        student = Object.assign({}, student, data)
+        student.props = Object.assign({}, student.props, data)
 
         return student
       }
