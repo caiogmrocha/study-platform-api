@@ -1,3 +1,4 @@
+import { AccessDeniedError } from '@/core/http/errors/access-denied-error';
 import { Either, left, right } from '@/core/logic/Either';
 import { IStudentsRepository } from '@/repositories/i-students-repository';
 import { StudentDoesNotExistsError } from '../errors/student-does-not-exists-error';
@@ -22,6 +23,10 @@ export class UpdateStudentUseCase {
 
     if (!studentFoundedById) {
       return left(new StudentDoesNotExistsError(id, 'id'))
+    }
+
+    if (studentFoundedById.id !== authenticatedStudentId) {
+      return left(new AccessDeniedError())
     }
 
     return right(null)
