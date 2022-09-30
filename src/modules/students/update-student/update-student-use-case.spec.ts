@@ -1,3 +1,4 @@
+import { AccessDeniedError } from '@/core/http/errors/access-denied-error';
 import { Student } from '@/entities/student';
 import { UpdateStudentUseCase } from '@/modules/students/update-student/update-student-use-case';
 import { IStudentsRepository } from '@/repositories/i-students-repository';
@@ -42,5 +43,40 @@ describe('Update Student', () => {
 
     expect(resultOrError.isLeft()).toBeTruthy()
     expect(resultOrError.value).toEqual(new StudentDoesNotExistsError(randomStudentId, 'id'))
+  })
+
+  it('should return AccessDeniedError if student does not is authenticated', async () => {
+    const students = [
+      new Student({
+        name: 'John Doe',
+        email: 'john@doe.com',
+        password: 'any_password',
+        phone: '00000000000',
+        bio: 'any_bio_here',
+        image: '',
+      }),
+      new Student({
+        name: 'John Three',
+        email: 'john@three.com',
+        password: 'any_password',
+        phone: '11111111111',
+        bio: 'any_bio_here',
+        image: '',
+      }),
+    ]
+    const { sut } = makeSut(students)
+
+    const resultOrError = await sut.execute({
+      authenticatedStudentId: students[0].id as string,
+      id: students[1].id as string,
+      name: 'John Three',
+      email: 'john@three.com',
+      password: 'any_password',
+      phone: '11111111111',
+      bio: 'any_bio_here'
+    })
+
+    expect(resultOrError.isLeft()).toBeTruthy()
+    expect(resultOrError.value).toEqual(new AccessDeniedError())
   })
 })
