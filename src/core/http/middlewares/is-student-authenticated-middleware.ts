@@ -16,7 +16,6 @@ export class IsStudentAuthenticatedMiddleware implements IMiddleware<IsStudentAu
     private readonly tokenAuthentication: ITokenAuthentication
   ) {}
 
-
   async handle(request: IsStudentAuthenticatedMiddlewareRequest): Promise<HttpResponse> {
     try {
       const { accessToken } = request
